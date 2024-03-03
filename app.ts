@@ -1,7 +1,7 @@
 import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
-import schema from './schema/schema';
-import testSchema from './schema/typesSchema';
+import schema from './server/schema/schema';
+import testSchema from './server/schema/typesSchema';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 const uri = `mongodb+srv://${process.env.mongoUserName}:${process.env.mongoPassword}@graphqlcluster.i2yxeng.mongodb.net/?retryWrites=true&w=majority`;
