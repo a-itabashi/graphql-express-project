@@ -20,8 +20,8 @@ app.use(
   '/graphql',
   graphqlHTTP({
     graphiql: true,
-    // schema: schema
-    schema: testSchema,
+    schema: schema,
+    // schema: testSchema,
   })
 );
 
