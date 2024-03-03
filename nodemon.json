@@ -3,8 +3,7 @@
   "ext": "ts",
   "exec": "ts-node ./app.ts",
   "env": {
-    "mongoDatabase": "testing",
     "mongoUserName": "itabashia",
-    "mongoPassword": "g8SbW0J9fwz9GXpD"
+    "mongoPassword": "4TBpuP$WQVdw2"
   }
 }

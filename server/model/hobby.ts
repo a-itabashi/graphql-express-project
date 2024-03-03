@@ -5,5 +5,5 @@ const hobbySchema = new mongoose.Schema({
   description: String,
 });
 
-const HobbyModel = mongoose.model('User', hobbySchema);
-export default HobbyModel;
+const Hobby = mongoose.model('Hobby', hobbySchema);
+export default Hobby;

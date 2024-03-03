@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   name: String,
   age: Number,
-  professional: String,
+  profession: String,
 });
 
-const UserModel = mongoose.model('User', userSchema);
-export default UserModel;
+const User = mongoose.model('User', userSchema);
+export default User;

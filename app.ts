@@ -3,18 +3,18 @@ import { graphqlHTTP } from 'express-graphql';
 import schema from './server/schema/schema';
 import testSchema from './server/schema/typesSchema';
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import mongoose from 'mongoose';
+import cors from 'cors';
 
-const uri = `mongodb+srv://${process.env.mongoUserName}:${process.env.mongoPassword}@graphqlcluster.i2yxeng.mongodb.net/?retryWrites=true&w=majority`;
-
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  },
-});
+const uri = `mongodb+srv://${process.env.mongoUserName}:${process.env.mongoPassword}@graphqlcluster.i2yxeng.mongodb.net/?retryWrites=true&w=majority&appName=graphqlCluster`;
 
 const app = express();
+app.use(cors());
+
+mongoose.connect(uri);
+mongoose.connection.once('open', () => {
+  console.log('Yes!  We are connected!');
+});
 
 app.use(
   '/graphql',
@@ -25,15 +25,6 @@ app.use(
   })
 );
 
-client
-  .connect()
-  .then(() => {
-    app.listen(4000, () => {
-      console.log('Listen for 4000 port');
-    });
-  })
-  .catch((e) => console.log(e));
-
-// app.listen(4000, () => {
-//   console.log('Listen for 4000 port');
-// });
+app.listen(4000, () => {
+  console.log('Listening for requests on my awesome port 4000');
+});

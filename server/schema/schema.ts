@@ -6,6 +6,9 @@ import {
   GraphQLID,
   GraphQLList,
 } from 'graphql';
+import User from '../model/user';
+import Post from '../model/post';
+import Hobby from '../model/hobby';
 
 // dummy data
 const userData = [
@@ -198,13 +201,21 @@ const Mutation = new GraphQLObjectType({
         age: { type: GraphQLInt },
         profession: { type: GraphQLString },
       },
+      // resolve(_parent, args) {
+      //   // const user = {
+      //   //   name: args.name,
+      //   //   age: args.age,
+      //   //   profession: args.profession,
+      //   // };
       resolve(_parent, args) {
-        const user = {
+        // ユーザーモデルを作成
+        const user = new User({
           name: args.name,
           age: args.age,
           profession: args.profession,
-        };
-        return user;
+        });
+        // ユーザーをデータベースに保存
+        return user.save();
       },
     },
     createPost: {
@@ -214,12 +225,19 @@ const Mutation = new GraphQLObjectType({
         comment: { type: GraphQLString },
         userId: { type: GraphQLID },
       },
+      // resolve(_parent, args) {
+      //   const post = {
+      //     comment: args.comment,
+      //     userId: args.userId,
+      //   };
+      //   return post;
+      // },
       resolve(_parent, args) {
-        const post = {
+        const post = new Post({
           comment: args.comment,
           userId: args.userId,
-        };
-        return post;
+        });
+        return post.save();
       },
     },
     createHobby: {
@@ -230,13 +248,21 @@ const Mutation = new GraphQLObjectType({
         description: { type: GraphQLString },
         userId: { type: GraphQLID },
       },
+      // resolve(_parent, args) {
+      //   const hobby = {
+      //     title: args.title,
+      //     description: args.description,
+      //     userId: args.userId,
+      //   };
+      //   return hobby;
+      // },
       resolve(_parent, args) {
-        const hobby = {
+        const hobby = new Hobby({
           title: args.title,
           description: args.description,
           userId: args.userId,
-        };
-        return hobby;
+        });
+        return hobby.save();
       },
     },
   },
