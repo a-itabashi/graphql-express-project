@@ -2,7 +2,6 @@ import express from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import schema from './server/schema/schema';
 import testSchema from './server/schema/typesSchema';
-import { MongoClient, ServerApiVersion } from 'mongodb';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
