@@ -200,7 +200,7 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    createUser: {
+    CreateUser: {
       type: UserType,
       args: {
         // id: {type : GraphQLID}
@@ -225,7 +225,44 @@ const Mutation = new GraphQLObjectType({
         return user.save();
       },
     },
-    createPost: {
+    UpdateUser: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        name: { type: GraphQLNonNull(GraphQLString) },
+        age: { type: GraphQLNonNull(GraphQLInt) },
+        profession: { type: GraphQLString },
+      },
+      resolve(_parent, args) {
+        return User.findByIdAndUpdate(
+          args.id,
+          {
+            $set: {
+              name: args.name,
+              age: args.age,
+              profession: args.profession,
+            },
+          },
+          { new: true } //send back the updated objectType
+        );
+      },
+    },
+    RemoveUser: {
+      type: UserType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+      },
+      resolve(_parent, args) {
+        // exec()を呼び出すことで、Promiseを返却。
+        // しかし、findByIdAndDeleteのようなMongooseのメソッドは、exec()を明示的に呼び出さなくてもPromiseを返します。
+        const removedUser = User.findByIdAndDelete(args.id).exec();
+        if (!removedUser) {
+          throw new Error('Error');
+        }
+        return removedUser;
+      },
+    },
+    CreatePost: {
       type: PostType,
       args: {
         // id: {type : GraphQLID}
@@ -247,7 +284,41 @@ const Mutation = new GraphQLObjectType({
         return post.save();
       },
     },
-    createHobby: {
+    UpdatePost: {
+      type: PostType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        comment: { type: GraphQLNonNull(GraphQLString) },
+        // userId: { type: GraphQLNonNull(GraphQLID) },
+      },
+      resolve(_parent, args) {
+        return Post.findByIdAndUpdate(
+          args.id,
+          {
+            $set: {
+              comment: args.comment,
+            },
+          },
+          { new: true }
+        );
+      },
+    },
+    RemovePost: {
+      type: PostType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+
+      resolve(_parent, args) {
+        let removedPost = Post.findByIdAndDelete(args.id).exec();
+
+        if (!removedPost) {
+          throw new Error('Error');
+        }
+        return removedPost;
+      },
+    },
+    CreateHobby: {
       type: HobbyType,
       args: {
         // id: { type: GraphQLID },
@@ -270,6 +341,42 @@ const Mutation = new GraphQLObjectType({
           userId: args.userId,
         });
         return hobby.save();
+      },
+    },
+    UpdateHobby: {
+      type: HobbyType,
+      args: {
+        id: { type: GraphQLNonNull(GraphQLString) },
+        title: { type: GraphQLNonNull(GraphQLString) },
+        description: { type: GraphQLNonNull(GraphQLString) },
+        // userId: { type: GraphQLNonNull(GraphQLID) },
+      },
+      resolve(_parent, args) {
+        return Hobby.findByIdAndUpdate(
+          args.id,
+          {
+            $set: {
+              title: args.title,
+              description: args.description,
+            },
+          },
+          { new: true }
+        );
+      },
+    },
+    RemoveHobby: {
+      type: HobbyType,
+      args: {
+        id: { type: new GraphQLNonNull(GraphQLString) },
+      },
+
+      resolve(_parent, args) {
+        let removedHobby = Hobby.findByIdAndDelete(args.id).exec();
+
+        if (!removedHobby) {
+          throw new Error('Error');
+        }
+        return removedHobby;
       },
     },
   },
